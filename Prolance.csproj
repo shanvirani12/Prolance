@@ -7,29 +7,82 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\assets\libs\jquery.easing\bower_components\jquery\MIT-LICENSE.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Application\DTOs\" />
     <Folder Include="Application\Services\" />
     <Folder Include="Domain\Interfaces\" />
     <Folder Include="Infrastructure\ExternalServices\" />
     <Folder Include="Infrastructure\Persistence\Repositories\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Mapping\" />
+    <Folder Include="wwwroot\assets\libs\bootstrap-filestyle2\src\" />
+    <Folder Include="wwwroot\assets\libs\bootstrap-filestyle2\test\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-autofill-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-autofill\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-keytable-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-keytable\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-responsive-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-responsive\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-select-bs4\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net-select\types\" />
+    <Folder Include="wwwroot\assets\libs\datatables.net\types\" />
+    <Folder Include="wwwroot\assets\libs\flot-charts\examples\" />
+    <Folder Include="wwwroot\assets\libs\flot.curvedlines\examples\" />
+    <Folder Include="wwwroot\assets\libs\flot.curvedlines\tests\" />
+    <Folder Include="wwwroot\assets\libs\gmaps\docs\" />
+    <Folder Include="wwwroot\assets\libs\gmaps\examples\" />
+    <Folder Include="wwwroot\assets\libs\gmaps\test\" />
+    <Folder Include="wwwroot\assets\libs\gulp-rtlcss\node_modules\" />
+    <Folder Include="wwwroot\assets\libs\ion-rangeslider\less\skins\" />
+    <Folder Include="wwwroot\assets\libs\jquery-sparkline\src\" />
+    <Folder Include="wwwroot\assets\libs\jquery-steps\demo\" />
+    <Folder Include="wwwroot\assets\libs\jquery-steps\src\" />
+    <Folder Include="wwwroot\assets\libs\jquery-steps\test\" />
+    <Folder Include="wwwroot\assets\libs\jquery.easing\bower_components\jquery-easing-original\example\" />
+    <Folder Include="wwwroot\assets\libs\jquery.easing\bower_components\jquery\dist\" />
+    <Folder Include="wwwroot\assets\libs\jquery.easing\bower_components\jquery\src\" />
+    <Folder Include="wwwroot\assets\libs\jquery.easing\example\" />
+    <Folder Include="wwwroot\assets\libs\jquery.flot.tooltip\examples\" />
+    <Folder Include="wwwroot\assets\libs\jquery.repeater\src\" />
+    <Folder Include="wwwroot\assets\libs\jquery.repeater\test\" />
+    <Folder Include="wwwroot\assets\libs\moment\src\" />
+    <Folder Include="wwwroot\assets\libs\pdfmake\src\" />
+    <Folder Include="wwwroot\assets\libs\table-edits\src\" />
+    <Folder Include="wwwroot\assets\libs\toastr\tests\" />
+    <Folder Include="wwwroot\assets\libs\twitter-bootstrap-wizard\examples\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\libs\jquery.easing\bower_components\jquery-easing-original\jquery.easing.compatibility.js" />
+    <None Include="wwwroot\assets\libs\jquery.easing\bower_components\jquery-easing-original\jquery.easing.min.js" />
+    <None Include="wwwroot\assets\libs\jquery.easing\bower_components\jquery\jquery.min.js" />
+    <None Include="wwwroot\img\.DS_Store" />
+    <None Include="wwwroot\img\avatar\.DS_Store" />
+    <None Include="wwwroot\img\testimonial\.DS_Store" />
+    <None Include="wwwroot\js\site.js" />
+    <None Include="wwwroot\vendor\.DS_Store" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.5" />
   </ItemGroup>
 
 </Project>

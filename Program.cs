@@ -5,6 +5,7 @@ using Prolance.Application.Services;
 using Prolance.Domain.Interfaces;
 using Prolance.Infrastructure.Persistence.Repositories;
 using Prolance.Mapping;
+using Prolance.Domain.Entities;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,7 +24,12 @@ builder.Services.AddAuthorizationBuilder();
 
 //DBContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("HomeConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("OfficeConnection")));
+
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 //Register Repository and Services
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
@@ -48,8 +54,48 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 
+app.MapRazorPages();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Index}/{id?}");
+    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    var roles = new[] { "Admin", "Employee" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+            await roleManager.CreateAsync(new IdentityRole(role));
+    }
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    string firstName = "admin";
+    string lastName = "admin";
+    string email = "admin@admin.com";
+    string password = "Admin@admin12";
+
+    if (await userManager.FindByEmailAsync(email) == null)
+    {
+        var user = new User();
+        user.UserName = email;
+        user.Email = email;
+        user.FirstName = firstName;
+        user.LastName = lastName;
+
+        await userManager.CreateAsync(user, password);
+
+        await userManager.AddToRoleAsync(user, "Admin");
+
+    }
+
+}
 
 app.Run();

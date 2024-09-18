@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Prolance.Application.DTOs;
 using Prolance.Application.Services;
 using System.Threading.Tasks;
 
 namespace Prolance.Presentation.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AccountController : Controller
     {
         private readonly AccountService _accountService;

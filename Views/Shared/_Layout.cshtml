@@ -1,87 +1,56 @@
-@using Microsoft.AspNetCore.Mvc.Rendering
-@using Microsoft.AspNetCore.Mvc.ViewFeatures
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LusionTech - Management Portal</title>
-    @*<link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/20.1.55/material.css" />*@
-    <link href="https://cdn.syncfusion.com/ej2/20.1.55/bootstrap5-dark.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Expense_Tracker.styles.css" asp-append-version="true" />
-    <link rel="icon" href="~/favicon.png" type="image/png" />
+
+    @Html.Partial("~/Views/Shared/_title_meta.cshtml")
+    @RenderSection("styles", false)
+    @Html.Partial("~/Views/Shared/_head_css.cshtml")
+
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/">My Application</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/Account">Account</a>
-                    </li>
-                    <!-- Add more navigation items as needed -->
-                </ul>
-            </div>
-        </nav>
-    </header>
 
-    <div class="dock-target">
+<body data-sidebar="dark">
+
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+
+        @Html.Partial("~/Views/Shared/_topbar.cshtml")
+        @Html.Partial("~/Views/Shared/_sidebar.cshtml")
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+
         <div class="main-content">
-            <div class="container mt-5">
-                <div class="row justify-content-center">
-                    <div class="@(ViewData["isDashboard"] == null?"col-md-10":"col-md-12")">
-                        <main role="main">
-                            @if (ViewData["isDashboard"] == null)
-                            {
-                                <div class="row">
-                                    <div class="col-md-7">
-                                        <div class="d-flex flex-column mb-5">
-                                            <div class="d-flex mb-1">
-                                                <div class="flex-grow-1">
-                                                    <h3 class="fw-bold">@ViewData["PageTitle"]</h3>
-                                                </div>
-                                                <div>
-                                                    @if (ViewData["PageActionText"] != null)
-                                                    {
-                                                        <a class="btn btn-success" href="@ViewData["PageActionUrl"]">
-                                                            @ViewData["PageActionText"]
-                                                        </a>
-                                                    }
-                                                </div>
-                                            </div>
-                                     
-                                        </div>
-                                    </div>
-                                </div>
-                            }
-                            @RenderBody()
-                        </main>
-                    </div>
-                </div>
+            <div class="page-content">
+                <div class="container-fluid">
+
+                    @Html.Partial("~/Views/Shared/_page_title.cshtml")
+
+                    @RenderBody()
+
+                </div> <!-- container-fluid -->
             </div>
-        </div>
+            <!-- End Page-content -->
 
-    <footer class="footer mt-auto py-3 bg-light">
-        <div class="container">
-            <span class="text-muted">© 2024 My Application</span>
-        </div>
-    </footer>
+            @Html.Partial("~/Views/Shared/_footer.cshtml")
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+        </div>
+        <!-- end main content-->
+
+    </div>
+
+    @RenderSection("externalhtml", required: false)
+
+    <!-- END layout-wrapper -->
+
+    @Html.Partial("~/Views/Shared/_right_sidebar.cshtml")
+
+    @Html.Partial("~/Views/Shared/_vendor_scripts.cshtml")
+
+    @RenderSection("scripts", required: false)
+
+
 </body>
+
 </html>
