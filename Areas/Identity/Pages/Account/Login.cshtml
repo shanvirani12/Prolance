@@ -1,84 +1,75 @@
 ﻿@page
 @model LoginModel
+
 @{
-    ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_BlankLayout.cshtml";
+    Layout = "_AuthLayout";
+    ViewData["Title"] = "Log in";
 }
 
-<div>
-    <div class="container-fluid p-0">
-        <div class="row g-0">
-            <div class="col-lg-4">
-                <div class="authentication-page-content p-4 d-flex align-items-center min-vh-100">
-                    <div class="w-100">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-9">
-                                <div>
-                                    <div class="text-center">
-                                        <div>
-                                            <a href="@Url.Action("Index", "Dashboard")" class="">
-                                                <img src="~/assets/images/GreyLogo.png" alt="" height="20" class="auth-logo logo-dark mx-auto">
-                                                <img src="~/assets/images/GreyLogo.png" alt="" height="20" class="auth-logo logo-light mx-auto">
-                                            </a>
-                                        </div>
-
-                                        <h4 class="font-size-18 mt-4">Welcome Back !</h4>
-                                        <p class="text-muted">Sign in to continue to Nazox.</p>
-                                    </div>
-
-                                    <div class="p-2 mt-5">
-                                        <form asp-action="Login" method="post" class="">
-
-                                            <div class="mb-3 auth-form-group-custom mb-4">
-                                                <i class="ri-user-2-line auti-custom-input-icon"></i>
-                                                <label asp-for="Input.Email">Email</label>
-                                                <input asp-for="Input.Email" class="form-control" placeholder="Enter email" autocomplete="username" aria-required="true" />
-                                                <span asp-validation-for="Input.Email" class="text-danger"></span>
-                                            </div>
-
-                                            <div class="mb-3 auth-form-group-custom mb-4">
-                                                <i class="ri-lock-2-line auti-custom-input-icon"></i>
-                                                <label asp-for="Input.Password">Password</label>
-                                                <input asp-for="Input.Password" class="form-control" placeholder="Enter password" autocomplete="current-password" aria-required="true" />
-                                                <span asp-validation-for="Input.Password" class="text-danger"></span>
-                                            </div>
-
-                                            <div class="form-check">
-                                                <input asp-for="Input.RememberMe" class="form-check-input" />
-                                                <label asp-for="Input.RememberMe" class="form-check-label">Remember me</label>
-                                            </div>
-
-                                            <div class="mt-4 text-center">
-                                                <button class="btn btn-primary w-md waves-effect waves-light" type="submit">Log In</button>
-                                            </div>
-
-                                            <div class="mt-4 text-center">
-                                                <a href="@Url.Action("ForgotPassword", "Account")" class="text-muted"><i class="mdi mdi-lock me-1"></i> Forgot your password?</a>
-                                            </div>
-                                        </form>
-                                    </div>
-
-                                    <div class="mt-5 text-center">
-                                        <p>Don't have an account? <a href="@Url.Action("Register", "Account")" class="fw-medium text-primary"> Register </a> </p>
-                                        <p>
-                                            © <script>document.write(new Date().getFullYear())</script> Nazox. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <div class="authentication-bg">
-                    <div class="bg-overlay"></div>
-                </div>
-            </div>
-        </div>
+<div class="login-container">
+    <div class="logo-container text-center mb-4">
+        <img src="~/GreyLogo.png" class="logo-image" alt="Company Logo" />
     </div>
+    <h1 class="text-center mb-4">@ViewData["Title"]</h1>
+    <section>
+        <form id="account" method="post">
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control bg-dark text-light" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email" class="form-label">Email</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control bg-dark text-light" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password" class="form-label">Password</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-check mb-3">
+                <input class="form-check-input" asp-for="Input.RememberMe" />
+                <label asp-for="Input.RememberMe" class="form-check-label">
+                    @Html.DisplayNameFor(m => m.Input.RememberMe)
+                </label>
+            </div>
+            <div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-light">Log in</button>
+                <button asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl" class="w-100 mt-3 btn btn-lg btn-light">Register</button>
+            </div>
+        </form>
+    </section>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
+<style>
+    .login-container {
+        width: 500px;
+        margin: auto;
+        padding: 20px;
+    }
+
+    .logo-container {
+        margin-bottom: 20px;
+    }
+
+    .logo-image {
+        max-width: 200px;
+        height: auto;
+    }
+
+    .form-floating {
+        margin-bottom: 15px;
+    }
+
+    .btn-light {
+        background-color: #f8f9fa;
+        color: #343a40;
+    }
+
+        .btn-light:hover {
+            background-color: #e2e6ea;
+            color: #343a40;
+        }
+</style>

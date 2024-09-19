@@ -1,0 +1,33 @@
+﻿@model List<Prolance.Application.DTOs.AccountDTO>
+
+@{
+    ViewData["Title"] = "Select Account";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Select an Account</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="accountId">Select Account</label>
+                            <select id="accountId" name="accountId" class="form-control">
+                                <option value="">-- Select Account --</option>
+                                @foreach (var account in Model)
+                                {
+                                    <option value="@account.Id">@account.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Proceed</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

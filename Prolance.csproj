@@ -11,11 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\DTOs\" />
-    <Folder Include="Application\Services\" />
-    <Folder Include="Domain\Interfaces\" />
     <Folder Include="Infrastructure\ExternalServices\" />
-    <Folder Include="Infrastructure\Persistence\Repositories\" />
     <Folder Include="Mapping\" />
     <Folder Include="wwwroot\assets\libs\bootstrap-filestyle2\src\" />
     <Folder Include="wwwroot\assets\libs\bootstrap-filestyle2\test\" />

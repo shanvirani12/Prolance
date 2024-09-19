@@ -35,6 +35,9 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<AccountService>();
 
+builder.Services.AddScoped<IBidRepository, BidRepository>();
+builder.Services.AddScoped<BidService>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddControllersWithViews();
@@ -59,6 +62,10 @@ app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "Accounts",
+    pattern: "{controller=Accounts}/{action=Index}/{id?}");
 
 
 using (var scope = app.Services.CreateScope())

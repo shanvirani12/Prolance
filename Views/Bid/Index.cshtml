@@ -1,0 +1,66 @@
+﻿@model List<Prolance.Application.DTOs.BidDto>
+
+@{
+    ViewData["Title"] = "Bids";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Bids</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered dt-responsive nowrap">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Link</th>
+                                    <th>Account</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var bid in Model)
+                                {
+                                    <tr>
+                                        <td>@bid.Link</td>
+                                        <td>@bid.AccountName</td>
+                                        <td>@bid.DateTime.ToString("yyyy-MM-dd HH:mm")</td>
+                                        <td>
+                                            <form method="post" action="/Bids/Delete/@bid.BidId" style="display:inline;">
+                                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Add New Bid</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="/Bid/AddBid?accountId=@ViewBag.AccountId">
+                        <div class="form-group">
+                            <label for="link">New Bid Link</label>
+                            <input type="text" id="link" name="link" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3">Add Bid</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
