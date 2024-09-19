@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Nazox.Controllers.Dashboard
+namespace Prolance.Controllers
 {
     public class DashboardController : Controller
     {

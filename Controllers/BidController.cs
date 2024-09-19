@@ -5,7 +5,7 @@ using Prolance.Application.DTOs;
 using Prolance.Application.Services;
 using Prolance.Domain.Entities;
 
-namespace Prolance.Web.Controllers
+namespace Prolance.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class BidController : Controller

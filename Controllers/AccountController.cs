@@ -4,7 +4,7 @@ using Prolance.Application.DTOs;
 using Prolance.Application.Services;
 using System.Threading.Tasks;
 
-namespace Prolance.Presentation.Controllers
+namespace Prolance.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class AccountController : Controller
