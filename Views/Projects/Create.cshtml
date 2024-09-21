@@ -1,0 +1,205 @@
+﻿@model Prolance.Application.DTOs.ProjectDto
+@{
+    ViewData["Title"] = "Create Project";
+}
+
+<h2>Create Project</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="ProjectName"></label>
+        <input asp-for="ProjectName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProjectClientName"></label>
+        <input asp-for="ProjectClientName" class="form-control" />
+    </div>
+
+    <!-- Bid Search -->
+    <div class="mb-3">
+        <ejs-textbox id="bidSearch" placeholder="Search Bid by Link" floatLabelType="Always"></ejs-textbox>
+        <ejs-button id="searchBtn" content="Search" type="button" cssClass="e-info" onclick="searchBids()"></ejs-button>
+    </div>
+
+    <!-- Bid Selection -->
+    <div class="mb-3">
+        <label asp-for="ProjectLink" class="form-label text-white">Select Bid</label>
+        <select id="bidSelect" class="form-select">
+            <option value="">Select a bid</option>
+        </select>
+        <span asp-validation-for="ProjectLink" class="text-danger fs-6"></span>
+    </div>
+
+    <!-- Project Link -->
+    <div class="mb-3">
+        <label asp-for="ProjectLink" class="form-label text-white">Project Link</label>
+        <input type="text" id="ProjectLink" asp-for="ProjectLink" class="form-control" readonly />
+        <span asp-validation-for="ProjectLink" class="text-danger fs-6"></span>
+    </div>
+
+    <!-- Account Name -->
+    <div class="mb-3">
+        <label class="form-label text-white">Account Name</label>
+        <input type="hidden" asp-for="AccountID" />
+        <input type="text" asp-for="Account" id="AccountName" name="AccountName" class="form-control" readonly />
+        <input type="hidden" asp-for="Account" id="Account" name="AccountName" class="form-control" readonly />
+    </div>
+
+    <!-- User -->
+    <div class="mb-3">
+        <label class="form-label text-white">User</label>
+        <input type="hidden" asp-for="UserId" />
+        <input type="text" asp-for="User" id="UserName" name="UserName" class="form-control" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ProjectType" class="form-label text-white">Select Project Type</label>
+        <select id="TypeSelect" class="form-select" asp-for="ProjectType">
+            <option value="">Select a Project Type</option>
+            <option value="Graphic">Graphic</option>
+            <option value="Website">Website</option>
+        </select>
+        <span asp-validation-for="ProjectType" class="text-danger fs-6"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label text-white">Select a Status of Project</label>
+        <select id="StatusSelect" class="form-select" asp-for="Status">
+            <option value="">Select a Project Status</option>
+            <option value="Awarded">Awarded</option>
+            <option value="InProgress">In-Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger fs-6"></span>
+    </div>
+
+    <!-- IsRecruiter Checkbox -->
+    <div class="form-group">
+        <label asp-for="IsRecruiter"></label>
+        <input asp-for="IsRecruiter" type="checkbox" class="form-check-input" id="IsRecruiter" onclick="calculateBudget()" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="GrossBudget"></label>
+        <input asp-for="GrossBudget" id="GrossBudget" class="form-control" oninput="calculateBudget()" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CurrencyId">Currency</label>
+        <select asp-for="CurrencyId" class="form-control" id="CurrencyId" onchange="calculateBudget()">
+            @foreach (var currency in ViewData["CurrencyId"] as SelectList)
+            {
+                <option value="@currency.Value">@currency.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NetBudget"></label>
+        <input asp-for="NetBudget" id="NetBudget" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BudgetInPKR">Budget in PKR</label>
+        <input asp-for="BudgetInPKR" id="BudgetInPKR" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AwardDate"></label>
+        <input asp-for="AwardDate" class="form-control" type="date" />
+        <span asp-validation-for="AwardDate" class="text-danger fs-6"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ClosingDate"></label>
+        <input asp-for="ClosingDate" class="form-control" type="date" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="AssignedTo"></label>
+        <input asp-for="AssignedTo" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CostinPKR"></label>
+        <input asp-for="CostinPKR" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function searchBids() {
+            var query = document.getElementById("bidSearch").ej2_instances[0].value;
+            if (!query) {
+                alert("Please enter a search term.");
+                return;
+            }
+            fetch('/Projects/SearchBids?query=' + encodeURIComponent(query))
+                .then(response => response.json())
+                .then(data => {
+                    var select = document.getElementById('bidSelect');
+                    if (!select) {
+                        console.error('Select element not found');
+                        return;
+                    }
+                    select.innerHTML = ''; // Clear existing options
+                    var defaultOption = document.createElement("option");
+                    defaultOption.value = '';
+                    defaultOption.text = 'Select a bid';
+                    select.appendChild(defaultOption);
+                    data.forEach(function (bid) {
+                        var option = document.createElement("option");
+                        option.value = bid.id;
+                        option.text = `Link: ${bid.link}, Employee: ${bid.user}, ID: ${bid.userId}, Account: ${bid.account}, ID: ${bid.accountId}`;
+                        select.appendChild(option);
+                    });
+
+                    // Event listener for when a bid is selected
+                    select.addEventListener('change', function () {
+                        var selectedBid = data.find(bid => bid.id == select.value);
+                        if (selectedBid) {
+                            document.getElementById('ProjectLink').value = selectedBid.link;
+                            document.getElementById('AccountName').value = selectedBid.accountname;
+                            document.getElementById('UserName').value = selectedBid.username;
+                            document.getElementById('AccountID').value = selectedBid.accountId;
+                            document.getElementById('UserId').value = selectedBid.userId;
+                            document.getElementById('Account').value = selectedBid.account;
+                            document.getElementById('User').value = selectedBid.user;
+                        } else {
+                            document.getElementById('ProjectLink').value = '';
+                            document.getElementById('AccountName').value = '';
+                            document.getElementById('UserName').value = '';
+                            document.getElementById('AccountID').value = '';
+                            document.getElementById('UserId').value = '';
+                            document.getElementById('Account').value = '';
+                            document.getElementById('User').value = '';
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching bids:', error));
+        }
+
+        window.searchBids = searchBids;
+
+        function calculateBudget() {
+            const grossBudget = parseFloat(document.getElementById('GrossBudget').value);
+            const currencyId = parseInt(document.getElementById('CurrencyId').value);
+            const isRecruiter = document.getElementById('IsRecruiter').checked;
+
+            if (!isNaN(grossBudget) && currencyId > 0) {
+                $.get('/Projects/CalculateBudget', { grossBudget: grossBudget, currencyId: currencyId, isRecruiter: isRecruiter }, function (response) {
+                    if (response.success) {
+                        document.getElementById('NetBudget').value = response.netBudget.toFixed(2);
+                        document.getElementById('BudgetInPKR').value = response.budgetInPKR.toFixed(2);
+                    } else {
+                        console.error('Error calculating budget:', response.error);
+                    }
+                });
+            }
+        }
+    </script>
+}

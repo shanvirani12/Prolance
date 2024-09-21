@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Prolance.Application.DTOs.CurrencyDto>
+
+@{
+    ViewData["Title"] = "Currencies";
+}
+
+<h2 class="my-4">Currencies</h2>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="AddCurrency" method="post" class="form-inline row g-3 align-items-center">
+            <div class="col-auto">
+                <label for="currencyCode" class="col-form-label">Add Currency:</label>
+            </div>
+            <div class="col-auto">
+                <input type="text" name="currencyCode" id="currencyCode" class="form-control" placeholder="Enter code (e.g. USD)">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </div>
+        </form>
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger mt-3">
+                @TempData["Error"]
+            </div>
+        }
+    </div>
+</div>
+
+<hr class="my-4" />
+
+<h3 class="mb-4">Existing Currencies</h3>
+
+<div class="card">
+    <div class="card-body p-4">
+        <table class="table table-bordered table-hover dt-responsive nowrap">
+            <thead class="table-light">
+                <tr>
+                    <th>Code</th>
+                    <th>Exchange Rate (to PKR)</th>
+                    <th>Last Updated</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var currency in Model)
+                {
+                    <tr>
+                        <td>@currency.Code</td>
+                        <td>@currency.ExchangeRate</td>
+                        <td>@currency.LastUpdated.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="mt-4 text-end">
+    <form asp-action="UpdateRates" method="post">
+        <button type="submit" class="btn btn-success">Update All Exchange Rates</button>
+    </form>
+</div>

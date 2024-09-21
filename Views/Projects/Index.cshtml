@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Prolance.Application.DTOs.ProjectDto>
+@{
+    ViewData["Title"] = "Projects Index";
+}
+
+<h2>Projects</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Project Name</th>
+            <th>Client Name</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <tr>
+                <td>@project.ProjectName</td>
+                <td>@project.ProjectClientName</td>
+                <td>@project.Status</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@project.ProjectId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@project.ProjectId" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-success">Create New Project</a>

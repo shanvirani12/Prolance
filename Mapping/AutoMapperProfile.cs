@@ -10,6 +10,10 @@ namespace Prolance.Mapping
         {
             CreateMap<Account, AccountDTO>()
                 .ReverseMap();
+            CreateMap<Currency, CurrencyDto>()
+                .ReverseMap();
+            CreateMap<Project, ProjectDto>()
+                .ReverseMap();
         }
     }
 }

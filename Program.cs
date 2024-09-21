@@ -24,7 +24,7 @@ builder.Services.AddAuthorizationBuilder();
 
 //DBContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("OfficeConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("HomeConnection")));
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
@@ -37,6 +37,12 @@ builder.Services.AddScoped<AccountService>();
 
 builder.Services.AddScoped<IBidRepository, BidRepository>();
 builder.Services.AddScoped<BidService>();
+
+builder.Services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+builder.Services.AddScoped<CurrencyService>();
+
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ProjectService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
