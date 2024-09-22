@@ -54,6 +54,9 @@ namespace Prolance.Infrastructure.Persistence.Repositories
 
         public async Task CreateProjectAsync(ProjectDto projectDto)
         {
+            projectDto.User = await _context.Users.FindAsync(projectDto.UserId);
+            projectDto.Account = await _context.Accounts.FindAsync(projectDto.AccountID);
+            projectDto.Currency = await _context.Currencies.FindAsync(projectDto.CurrencyId);
             var project = _mapper.Map<Project>(projectDto);
             _context.Projects.Add(project);
             await _context.SaveChangesAsync();
@@ -61,6 +64,9 @@ namespace Prolance.Infrastructure.Persistence.Repositories
 
         public async Task UpdateProjectAsync(ProjectDto projectDto)
         {
+            projectDto.User = await _context.Users.FindAsync(projectDto.UserId);
+            projectDto.Account = await _context.Accounts.FindAsync(projectDto.AccountID);
+            projectDto.Currency = await _context.Currencies.FindAsync(projectDto.CurrencyId);
             var project = _mapper.Map<Project>(projectDto);
             _context.Projects.Update(project);
             await _context.SaveChangesAsync();
@@ -94,12 +100,16 @@ namespace Prolance.Infrastructure.Persistence.Repositories
                     BidId = b.BidId,
                     Link = b.Link,
                     UserName = b.User.UserName,
-                    AccountName = b.Account.Name
+                    AccountName = b.Account.Name,
+                    userId = b.User.Id,
+                    accountId = b.Account.Id,
+                    user = b.User,
+                    account = b.Account
                 })
                 .ToListAsync();
         }
 
-        public async Task<double> CalculateBudgetAsync(double grossBudget, int currencyId, bool isRecruiter)
+        public async Task<(double netBudget, double budgetInPKR)> CalculateBudgetAsync(double grossBudget, int currencyId, bool isRecruiter)
         {
             var currency = await _context.Currencies.FindAsync(currencyId);
             if (currency == null)
@@ -111,7 +121,7 @@ namespace Prolance.Infrastructure.Persistence.Repositories
             double netBudget = grossBudget - platformFee;
             double budgetInPKR = netBudget * (double)currency.ExchangeRate;
 
-            return budgetInPKR;
+            return (netBudget, budgetInPKR);
         }
     }
 }

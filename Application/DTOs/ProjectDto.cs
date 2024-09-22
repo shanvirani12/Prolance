@@ -21,7 +21,7 @@ namespace Prolance.Application.DTOs
         public double NetBudget { get; set; }
         public double BudgetInPKR { get; set; }
         public int CurrencyId { get; set; }
-        public string CurrencyCode { get; set; } // Include currency code to avoid circular dependency
+        public Currency Currency { get; set; }
         public DateTime? ClosingDate { get; set; }
         public string AssignedTo { get; set; }
         public double? CostinPKR { get; set; }

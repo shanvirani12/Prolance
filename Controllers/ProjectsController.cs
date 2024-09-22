@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Prolance.Application.DTOs;
 using Prolance.Application.Services;
 
 namespace Prolance.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProjectsController : Controller
     {
         private readonly ProjectService _projectService;
@@ -22,7 +24,7 @@ namespace Prolance.Controllers
 
         public async Task<IActionResult> Create()
         {
-            ViewData["CurrencyId"] = new SelectList(await _projectService.GetCurrenciesAsync(), "CurrencyId", "CurrencyCode");
+            ViewBag.Currencies = new SelectList(await _projectService.GetCurrenciesAsync(), "Id", "Code");
             return View();
         }
 
@@ -30,19 +32,15 @@ namespace Prolance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProjectDto projectDto)
         {
-            if (ModelState.IsValid)
-            {
-                await _projectService.CreateProjectAsync(projectDto);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(projectDto);
+            await _projectService.CreateProjectAsync(projectDto);
+            return RedirectToAction(nameof(Index));            
         }
 
         public async Task<IActionResult> Edit(int id)
         {
             var project = await _projectService.GetProjectByIdAsync(id);
             if (project == null) return NotFound();
-            ViewData["CurrencyId"] = new SelectList(await _projectService.GetCurrenciesAsync(), "CurrencyId", "CurrencyCode", project.CurrencyId);
+            ViewBag.Currencies = new SelectList(await _projectService.GetCurrenciesAsync(), "Id", "Code", project.CurrencyId);
             return View(project);
         }
 
@@ -56,7 +54,7 @@ namespace Prolance.Controllers
                 await _projectService.UpdateProjectAsync(projectDto);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CurrencyId"] = new SelectList(await _projectService.GetCurrenciesAsync(), "CurrencyId", "CurrencyCode", projectDto.CurrencyId);
+            ViewBag.Currencies = new SelectList(await _projectService.GetCurrenciesAsync(), "Id", "Code", projectDto.CurrencyId);
             return View(projectDto);
         }
 
@@ -72,7 +70,7 @@ namespace Prolance.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             await _projectService.DeleteProjectAsync(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> SearchBids(string query)
@@ -81,11 +79,29 @@ namespace Prolance.Controllers
             return Json(bids);
         }
 
+        [HttpGet]
         public async Task<IActionResult> CalculateBudget(double grossBudget, int currencyId, bool isRecruiter)
         {
-            var budgetInPKR = await _projectService.CalculateBudgetAsync(grossBudget, currencyId, isRecruiter);
-            return Json(new { budgetInPKR });
+            try
+            {
+                // Call the service to get the calculated budget
+                var result = await _projectService.CalculateBudgetAsync(grossBudget, currencyId, isRecruiter);
+
+                // Return the result as JSON
+                return Ok(new
+                {
+                    success = true,
+                    netBudget = result.netBudget,
+                    budgetInPKR = result.budgetInPKR
+                });
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors and return a JSON error response
+                return BadRequest(new { success = false, message = ex.Message });
+            }
         }
+
     }
 
 }

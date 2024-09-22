@@ -1,4 +1,5 @@
-﻿using Prolance.Application.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using Prolance.Application.DTOs;
 using Prolance.Domain.Entities;
 
 namespace Prolance.Domain.Interfaces
@@ -11,7 +12,7 @@ namespace Prolance.Domain.Interfaces
         Task UpdateProjectAsync(ProjectDto projectDto);
         Task DeleteProjectAsync(int id);
         Task<IEnumerable<BidDto>> SearchBidsAsync(string query);
-        Task<double> CalculateBudgetAsync(double grossBudget, int currencyId, bool isRecruiter);
+        Task<(double netBudget, double budgetInPKR)> CalculateBudgetAsync(double grossBudget, int currencyId, bool isRecruiter);
         Task<IEnumerable<CurrencyDto>> GetCurrenciesAsync();
     }
 }

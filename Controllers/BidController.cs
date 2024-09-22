@@ -7,7 +7,7 @@ using Prolance.Domain.Entities;
 
 namespace Prolance.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class BidController : Controller
     {
         private readonly BidService _bidService;

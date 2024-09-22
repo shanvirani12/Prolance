@@ -4,6 +4,7 @@ using Prolance.Domain.Interfaces;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using Prolance.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Prolance.Application.Services
 {
@@ -46,9 +47,13 @@ namespace Prolance.Application.Services
             return await _projectRepository.SearchBidsAsync(query);
         }
 
-        public async Task<double> CalculateBudgetAsync(double grossBudget, int currencyId, bool isRecruiter)
+        public async Task<(double netBudget, double budgetInPKR)> CalculateBudgetAsync(double grossBudget, int currencyId, bool isRecruiter)
         {
-            return await _projectRepository.CalculateBudgetAsync(grossBudget, currencyId, isRecruiter);
+            // You can add additional business logic here if necessary
+            var budgetData = await _projectRepository.CalculateBudgetAsync(grossBudget, currencyId, isRecruiter);
+
+            // Return the calculated budget
+            return budgetData;
         }
 
         public async Task<IEnumerable<CurrencyDto>> GetCurrenciesAsync()
