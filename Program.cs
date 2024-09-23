@@ -24,7 +24,7 @@ builder.Services.AddAuthorizationBuilder();
 
 //DBContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("HomeConnection")));
+options.UseSqlServer(builder.Configuration.GetConnectionString("OfficeConnection")));
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
@@ -43,6 +43,8 @@ builder.Services.AddScoped<CurrencyService>();
 
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ProjectService>();
+
+builder.Services.AddSingleton<ChatGPTService>();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 

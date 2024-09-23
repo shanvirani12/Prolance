@@ -1,0 +1,44 @@
+﻿<!-- Views/Prompt/Index.cshtml -->
+@model IEnumerable<Account>
+
+<h2>ChatGPT Prompt Interaction</h2>
+
+<form method="post" asp-controller="Prompt" asp-action="GetResponse">
+    <div class="form-group">
+        <label for="accountSelect">Choose an Account:</label>
+        <select name="accountId" id="accountSelect" class="form-control" required>
+            <option value="">--Select an account--</option>
+            @foreach (var account in Model)
+            {
+                <option value="@account.Id">@account.Name</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="userInput">Your Input:</label>
+        <input type="text" class="form-control" id="userInput" name="userInput" placeholder="Type your input here..." required />
+    </div>
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
+
+@if (ViewBag.Response != null)
+{
+    <h3>Response from ChatGPT:</h3>
+    <p>@ViewBag.SelectedPrompt</p>
+    <p><strong>User Input:</strong> @ViewBag.UserInput</p>
+    <p><strong>ChatGPT Response:</strong> <span id="chatGPTResponse">@ViewBag.Response</span></p>
+    <button class="btn btn-secondary" onclick="copyResponse()">Copy Response</button>
+}
+
+<script>
+    function copyResponse() {
+        var responseText = document.getElementById("chatGPTResponse").innerText;
+        navigator.clipboard.writeText(responseText)
+            .then(function () {
+                alert("Response copied to clipboard!");
+            })
+            .catch(function (err) {
+                console.error("Error copying text: ", err);
+            });
+    }
+</script>
